@@ -13,10 +13,14 @@ end
 to go
   ask turtles
   [
-    right 30
-    forward 4
+    ifelse coin-flip? [right random 60] [left random 60] ; if coin-flip is true, turn right else turn left
+    forward random 4
   ]
   tick
+end
+
+to-report coin-flip?     ; returns true or false at random
+  report random 2 = 0
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -33,8 +37,8 @@ GRAPHICS-WINDOW
 1
 1
 0
-1
-1
+0
+0
 1
 -16
 16
@@ -70,7 +74,7 @@ BUTTON
 80
 NIL
 go
-NIL
+T
 1
 T
 OBSERVER
@@ -78,6 +82,16 @@ NIL
 NIL
 NIL
 NIL
+1
+
+TEXTBOX
+64
+10
+115
+32
+Ant1
+18
+0.0
 1
 
 @#$#@#$#@
