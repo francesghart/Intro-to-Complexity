@@ -1,26 +1,41 @@
+turtles-own [food-eaten]
+
 to setup
   clear-all
   reset-ticks
-  create-turtles 1
+  create-turtles population
   ask turtles
   [
     set shape "bug"
-    set size 3
+    set size 1
     set color red
+    set food-eaten 0
   ]
+  grow-food
 end
 
 to go
+
   ask turtles
+ [
+    ifelse coin-flip? [right random max-turn-angle] [left random max-turn-angle] ; if coin-flip is true, turn right else turn left
+    forward random max-step-size
+  if pcolor = green ; if the turtle is located on a green patch
   [
-    ifelse coin-flip? [right random 60] [left random 60] ; if coin-flip is true, turn right else turn left
-    forward random 4
+    set pcolor black
+    set food-eaten (food-eaten + 1)
+    set label food-eaten
   ]
+ ]
   tick
 end
 
 to-report coin-flip?     ; returns true or false at random
   report random 2 = 0
+end
+
+to grow-food
+  ask patches [set pcolor green]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -49,16 +64,6 @@ GRAPHICS-WINDOW
 1
 ticks
 30.0
-
-TEXTBOX
-0
-0
-0
-0
-NIL
-11
-0.0
-1
 
 BUTTON
 5
@@ -93,6 +98,79 @@ NIL
 NIL
 NIL
 1
+
+TEXTBOX
+64
+10
+115
+32
+Ant 2
+18
+0.0
+1
+
+SLIDER
+0
+96
+172
+129
+Population
+Population
+1
+200
+44.0
+1
+1
+NIL
+HORIZONTAL
+
+PLOT
+0
+275
+200
+456
+Total Food Eaten
+Time
+Total Food Eaten
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"total-food-eaten" 1.0 0 -16777216 true "" "plot sum [food-eaten] of turtles"
+
+SLIDER
+0
+142
+172
+175
+max-step-size
+max-step-size
+1
+10
+4.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+0
+194
+172
+227
+max-turn-angle
+max-turn-angle
+1
+180
+60.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
